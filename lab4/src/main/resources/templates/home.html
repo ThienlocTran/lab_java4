@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .sidebar {
+            width: 240px;
+            transition: all 0.3s;
+        }
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        .sidebar.collapsed .sidebar-text {
+            display: none;
+        }
+        .video-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+        .video-card:hover .video-thumbnail {
+            transform: scale(1.05);
+        }
+        .video-thumbnail {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <div th:replace="fragments/header :: header"></div>
+    
+    <!-- Sidebar -->
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+
+    <!-- Main Content -->
+    <main class="ml-0 md:ml-64 mt-14 p-4">
+        <!-- Categories -->
+        <div class="flex space-x-2 overflow-x-auto pb-2 mb-4 hide-scrollbar">
+            <button class="px-3 py-1 bg-black text-white rounded-full text-sm font-medium whitespace-nowrap">All</button>
+            <button class="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-300">Gaming</button>
+            <button class="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-300">Music</button>
+            <button class="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-300">Live</button>
+            <button class="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-300">Cooking</button>
+            <button class="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-300">Comedy</button>
+            <button class="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-300">News</button>
+            <button class="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-300">Sports</button>
+            <button class="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-300">Learning</button>
+        </div>
+
+        <!-- Videos Grid -->
+        <div class="video-grid grid gap-4">
+            <!-- Video Card -->
+            <div th:each="video : ${videos}" class="video-card bg-white rounded-lg overflow-hidden shadow-sm">
+                <div class="relative">
+                    <img th:src="${video.thumbnailUrl}" 
+                         alt="Video thumbnail" 
+                         class="w-full h-48 object-cover video-thumbnail">
+                    <span class="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-xs px-1.5 py-0.5 rounded">
+                        <span th:text="${video.duration}">10:30</span>
+                    </span>
+                </div>
+                <div class="p-3">
+                    <div class="flex">
+                        <img th:src="${video.user.avatarUrl}" 
+                             alt="Channel avatar" 
+                             class="w-9 h-9 rounded-full mr-3">
+                        <div>
+                            <h3 class="font-medium text-sm line-clamp-2" th:text="${video.title}">Video Title Here</h3>
+                            <p class="text-gray-600 text-xs mt-1" th:text="${video.user.username}">Channel Name</p>
+                            <div class="flex text-xs text-gray-500">
+                                <span th:text="${video.shortViews}">1.2M views</span>
+                                <span class="mx-1">•</span>
+                                <span th:text="${video.timeAgo}">2 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('collapsed');
+            
+            const main = document.querySelector('main');
+            main.classList.toggle('md:ml-64');
+            main.classList.toggle('md:ml-20');
+        }
+
+        // Add click event to menu button
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.querySelector('.menu-button');
+            if (menuButton) {
+                menuButton.addEventListener('click', toggleSidebar);
+            }
+            
+            // Add click event to all menu items
+            const menuItems = document.querySelectorAll('.sidebar a');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    menuItems.forEach(i => i.classList.remove('bg-gray-200'));
+                    // Add active class to clicked item
+                    this.classList.add('bg-gray-200');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

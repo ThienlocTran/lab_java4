@@ -1,0 +1,46 @@
+<!-- Header -->
+<header class="bg-white shadow-sm sticky top-0 z-10" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+        <div class="flex items-center justify-between px-4 h-14">
+            <!-- Left section -->
+            <div class="flex items-center">
+                <button class="p-2 rounded-full hover:bg-gray-200 mr-2">
+                    <i class="fas fa-bars text-gray-600"></i>
+                </button>
+                <a href="/" class="flex items-center">
+                    <i class="fab fa-youtube text-red-600 text-2xl"></i>
+                    <span class="ml-2 font-semibold text-lg">YouTube</span>
+                </a>
+            </div>
+
+            <!-- Middle section - Search bar -->
+            <div class="hidden md:flex flex-1 max-w-2xl mx-4">
+                <div class="relative w-full">
+                    <input type="text" 
+                           class="w-full border border-gray-300 rounded-l-full py-2 px-4 focus:outline-none focus:border-blue-500"
+                           placeholder="Search">
+                    <button class="absolute right-0 top-0 h-full px-6 bg-gray-100 border border-l-0 border-gray-300 rounded-r-full hover:bg-gray-200">
+                        <i class="fas fa-search text-gray-600"></i>
+                    </button>
+                </div>
+                <button class="ml-2 p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+                    <i class="fas fa-microphone text-gray-600"></i>
+                </button>
+            </div>
+
+            <!-- Right section -->
+            <div class="flex items-center">
+                <button class="p-2 mx-1 rounded-full hover:bg-gray-200">
+                    <i class="fas fa-video text-gray-600"></i>
+                </button>
+                <button class="p-2 mx-1 rounded-full hover:bg-gray-200">
+                    <i class="fas fa-th text-gray-600"></i>
+                </button>
+                <button class="p-2 mx-1 rounded-full hover:bg-gray-200">
+                    <i class="fas fa-bell text-gray-600"></i>
+                </button>
+                <button class="w-8 h-8 ml-2 rounded-full bg-blue-500 text-white flex items-center justify-center">
+                    <span>U</span>
+                </button>
+            </div>
+        </div>
+    </header>
