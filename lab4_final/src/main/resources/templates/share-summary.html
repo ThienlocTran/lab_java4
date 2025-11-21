@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Summary - PolyOE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container-fluid {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: 0.3s ease;
+        }
+        .back-btn:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .table {
+            margin-bottom: 0;
+        }
+        .table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .table th {
+            border: none;
+            padding: 15px;
+            font-weight: 600;
+        }
+        .table td {
+            border-color: #e9ecef;
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .video-title {
+            font-weight: 500;
+            color: #667eea;
+        }
+        .badge-share {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        .empty-state h3 {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <a href="/" class="back-btn">← Back to Home</a>
+        
+        <div class="header">
+            <h1>📊 Share Summary</h1>
+            <p>Tổng hợp thông tin chia sẻ của các video</p>
+        </div>
+        
+        <div th:if="${summaries.isEmpty()}" class="table-container">
+            <div class="empty-state">
+                <h3>No shared videos found</h3>
+                <p>No videos have been shared yet.</p>
+            </div>
+        </div>
+        
+        <div th:unless="${summaries.isEmpty()}" class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Video</th>
+                        <th>Title</th>
+                        <th style="text-align: center;">Share Count</th>
+                        <th>Shared with Emails</th>
+                        <th>Last Share Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="summary : ${summaries}">
+                        <td>
+                            <img th:src="${summary.videoPoster}" 
+                                 alt="${summary.videoTitle}" 
+                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                        </td>
+                        <td class="video-title" th:text="${summary.videoTitle}">Video Title</td>
+                        <td style="text-align: center;">
+                            <span class="badge-share" th:text="${summary.shareCount}">0</span>
+                        </td>
+                        <td>
+                            <small th:text="${summary.sharedUserEmails}">No emails</small>
+                        </td>
+                        <td>
+                            <small th:text="${summary.lastShareDate}">N/A</small>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

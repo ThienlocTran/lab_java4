@@ -1,0 +1,43 @@
+package com.thienloc.springboot.lab.service;
+
+import com.thienloc.springboot.lab.entity.Share;
+import com.thienloc.springboot.lab.repository.ShareRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ShareService {
+    
+    @Autowired
+    private ShareRepository shareRepository;
+    
+    public List<Share> findAll() {
+        return shareRepository.findAll();
+    }
+    
+    public Optional<Share> findById(Long id) {
+        return shareRepository.findById(id);
+    }
+    
+    public Share create(Share share) {
+        return shareRepository.save(share);
+    }
+    
+    public Share update(Share share) {
+        return shareRepository.save(share);
+    }
+    
+    public void deleteById(Long id) {
+        shareRepository.deleteById(id);
+    }
+    
+    public List<Share> findSharedVideosIn2024() {
+        return shareRepository.findSharedVideosIn2024();
+    }
+    
+    public List<Share> findSharesByVideoId(Long videoId) {
+        return shareRepository.findSharesByVideoId(videoId);
+    }
+}

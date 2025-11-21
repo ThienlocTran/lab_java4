@@ -7,8 +7,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(
-        name = "Favorite",
-        // Cấu hình ràng buộc duy nhất cho cặp cột (UserId, VideoId)
+        name = "favorite",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"Userld", "Videold"})
         }
@@ -19,16 +18,14 @@ public class Favorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // FK: Mối quan hệ Many-to-One với User (ID là Long)
     @ManyToOne
-    @JoinColumn(name = "Userld") // Tên cột FK trong DB
-    private User user; // <--- Đối tượng User (ID Long)
+    @JoinColumn(name = "Userld")
+    private User user;
 
-    // FK: Mối quan hệ Many-to-One với Video (ID là Long)
     @ManyToOne
-    @JoinColumn(name = "Videold") // Tên cột FK trong DB
-    private Video video; // <--- Đối tượng Video (ID Long)
+    @JoinColumn(name = "Videold")
+    private Video video;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date likeDate;
 }

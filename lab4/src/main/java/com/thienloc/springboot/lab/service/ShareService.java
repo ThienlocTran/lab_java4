@@ -64,4 +64,9 @@ public class ShareService {
     public List<Share> findAllShares() {
         return shareRepository.findAllShares();
     }
+    
+    public List<com.thienloc.springboot.lab.dto.ShareSummaryDTO> getShareSummaryByVideo() {
+        return shareRepository.getShareSummaryByVideo();
+    }
+    
 }

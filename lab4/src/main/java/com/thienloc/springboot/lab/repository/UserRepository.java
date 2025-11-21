@@ -3,6 +3,7 @@ package com.thienloc.springboot.lab.repository;
 import com.thienloc.springboot.lab.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +17,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * Spring Data JPA tự động generate JPQL: SELECT u FROM User u WHERE u.email LIKE %:email%
      */
     Optional<User> findByEmailContaining(String email);
+    
+    /**
+     * Tìm User theo email chính xác
+     * JPQL: SELECT u FROM User u WHERE u.email = :email
+     */
+    Optional<User> findByEmail(String email);
     
     /**
      * Tìm tất cả User có role admin

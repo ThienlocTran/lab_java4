@@ -73,4 +73,49 @@ public class VideoService {
     public List<Video> findAllVideos() {
         return videoRepository.findAllVideos();
     }
+    
+    /**
+     * Truy vấn 10 video được yêu thích nhiều nhất
+     * JPQL: SELECT v FROM Video v LEFT JOIN v.favorites f GROUP BY v.id ORDER BY COUNT(f.id) DESC
+     */
+    public List<Video> findTop10MostLikedVideos() {
+        try {
+            List<Video> result = videoRepository.findTop10MostLikedVideos(10);
+            return result != null ? result : new java.util.ArrayList<>();
+        } catch (Exception e) {
+            System.err.println("Error in findTop10MostLikedVideos: " + e.getMessage());
+            e.printStackTrace();
+            return new java.util.ArrayList<>();
+        }
+    }
+    
+    /**
+     * Tìm các video không được ai thích
+     * JPQL: SELECT v FROM Video v LEFT JOIN v.favorites f GROUP BY v.id HAVING COUNT(f.id) = 0
+     */
+    public List<Video> findVideosNotLikedByAnyone() {
+        try {
+            List<Video> result = videoRepository.findVideosNotLikedByAnyone();
+            return result != null ? result : new java.util.ArrayList<>();
+        } catch (Exception e) {
+            System.err.println("Error in findVideosNotLikedByAnyone: " + e.getMessage());
+            e.printStackTrace();
+            return new java.util.ArrayList<>();
+        }
+    }
+    
+    /**
+     * Tìm video được chia sẻ trong năm 2024 và sắp xếp theo thời gian
+     * JPQL: SELECT DISTINCT v FROM Video v INNER JOIN v.shares s WHERE s.shareDate >= '2024-01-01' AND s.shareDate <= '2024-12-31'
+     */
+    public List<Video> findVideosSharedIn2024() {
+        try {
+            List<Video> result = videoRepository.findVideosSharedIn2024();
+            return result != null ? result : new java.util.ArrayList<>();
+        } catch (Exception e) {
+            System.err.println("Error in findVideosSharedIn2024: " + e.getMessage());
+            e.printStackTrace();
+            return new java.util.ArrayList<>();
+        }
+    }
 }

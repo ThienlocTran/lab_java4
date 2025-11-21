@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,5 +95,59 @@ public class VideoController {
             redirectAttributes.addFlashAttribute("message", "Error deleting video");
         }
         return "redirect:/video/crud";
+    }
+    
+    // REST API Endpoints for JPQL Queries
+    
+    /**
+     * Tìm videos theo title chứa keyword
+     * JPQL: SELECT v FROM Video v WHERE v.title LIKE %:title%
+     */
+    @GetMapping("/api/search")
+    public ResponseEntity<List<Video>> searchByTitle(@RequestParam String keyword) {
+        List<Video> videos = videoService.findByTitleContaining(keyword);
+        return ResponseEntity.ok(videos);
+    }
+    
+    /**
+     * Truy vấn 10 video được yêu thích nhiều nhất
+     * JPQL: SELECT v FROM Video v ORDER BY SIZE(v.favorites) DESC
+     */
+    @GetMapping("/api/top-liked")
+    public ResponseEntity<List<Video>> getTop10MostLikedVideos() {
+        List<Video> videos = videoService.findTop10MostLikedVideos();
+        return ResponseEntity.ok(videos);
+    }
+    
+    /**
+     * Tìm các video không được ai thích
+     * JPQL: SELECT v FROM Video v WHERE SIZE(v.favorites) = 0
+     */
+    @GetMapping("/api/not-liked")
+    public ResponseEntity<List<Video>> getVideosNotLikedByAnyone() {
+        try {
+            List<Video> videos = videoService.findVideosNotLikedByAnyone();
+            return ResponseEntity.ok(videos != null ? videos : new java.util.ArrayList<>());
+        } catch (Exception e) {
+            System.err.println("Error in getVideosNotLikedByAnyone: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.ok(new java.util.ArrayList<>());
+        }
+    }
+    
+    /**
+     * Tìm video được chia sẻ trong năm 2024 và sắp xếp theo thời gian
+     * JPQL: SELECT DISTINCT v FROM Video v JOIN v.shares s WHERE YEAR(s.shareDate) = 2024 ORDER BY s.shareDate DESC
+     */
+    @GetMapping("/api/shared-2024")
+    public ResponseEntity<List<Video>> getVideosSharedIn2024() {
+        try {
+            List<Video> videos = videoService.findVideosSharedIn2024();
+            return ResponseEntity.ok(videos != null ? videos : new java.util.ArrayList<>());
+        } catch (Exception e) {
+            System.err.println("Error in getVideosSharedIn2024: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.ok(new java.util.ArrayList<>());
+        }
     }
 }

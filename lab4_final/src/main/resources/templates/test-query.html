@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Tests - PolyOE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container-fluid {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: 0.3s ease;
+        }
+        .back-btn:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+            background: white;
+        }
+        .list-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .btn-query {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            border-radius: 5px;
+            padding: 8px 16px;
+            margin-right: 5px;
+        }
+        .btn-query:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-form input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <a href="/" class="back-btn">← Back to Home</a>
+        
+        <div class="header">
+            <h1>🔍 Query Tests</h1>
+            <p>Test các queries Spring Data JPA</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">1. Tìm Video theo Keyword</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/test-query/videos-by-keyword}" method="get" class="search-form">
+                            <input type="text" name="keyword" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="btn btn-query">Tìm Kiếm</button>
+                        </form>
+                        <div th:if="${keyword != null}">
+                            <strong>Kết quả cho: <span th:text="${keyword}"></span></strong>
+                            <div th:if="${videos.isEmpty()}" class="alert alert-info mt-2">
+                                Không tìm thấy video nào
+                            </div>
+                            <div th:each="video : ${videos}" class="list-item">
+                                <strong th:text="${video.title}"></strong>
+                                <br>
+                                <small class="text-muted" th:text="'Views: ' + ${video.views}"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">2. Top 10 Videos Yêu Thích Nhất</h5>
+                    </div>
+                    <div class="card-body">
+                        <a th:href="@{/test-query/top10-favorited}" class="btn btn-query">Xem Top 10</a>
+                        <div th:if="${top10Videos != null}">
+                            <div th:if="${top10Videos.isEmpty()}" class="alert alert-info mt-2">
+                                Không có video nào
+                            </div>
+                            <div th:each="video, index : ${top10Videos}" class="list-item">
+                                <strong th:text="'#' + (${index.count} + '. ' + ${video.title})"></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">3. Videos Không Được Thích</h5>
+                    </div>
+                    <div class="card-body">
+                        <a th:href="@{/test-query/no-favorites}" class="btn btn-query">Xem Danh Sách</a>
+                        <div th:if="${noFavVideos != null}">
+                            <div th:if="${noFavVideos.isEmpty()}" class="alert alert-info mt-2">
+                                Tất cả video đều được yêu thích
+                            </div>
+                            <div th:each="video : ${noFavVideos}" class="list-item">
+                                <strong th:text="${video.title}"></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">4. Videos Chia Sẻ trong 2024</h5>
+                    </div>
+                    <div class="card-body">
+                        <a th:href="@{/test-query/shared-2024}" class="btn btn-query">Xem Danh Sách</a>
+                        <div th:if="${shares2024 != null}">
+                            <div th:if="${shares2024.isEmpty()}" class="alert alert-info mt-2">
+                                Không có video nào được chia sẻ trong 2024
+                            </div>
+                            <div th:each="share : ${shares2024}" class="list-item">
+                                <strong th:text="${share.video.title}"></strong>
+                                <br>
+                                <small class="text-muted" th:text="'Chia sẻ: ' + ${#dates.format(share.shareDate, 'dd/MM/yyyy')}"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

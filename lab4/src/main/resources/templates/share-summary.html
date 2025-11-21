@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Share Summary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .table-wrapper {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        th {
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        tbody tr {
+            transition: background-color 0.3s ease;
+        }
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .title-column {
+            font-weight: 600;
+            color: #333;
+            max-width: 300px;
+            word-break: break-word;
+        }
+        .count-column {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+        .date-column {
+            color: #666;
+            font-size: 0.95em;
+        }
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 1.1em;
+        }
+        .header-info {
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stat-card .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-card .stat-label {
+            color: #666;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Video Share Summary</h1>
+        
+        <div class="header-info">
+            <p>Aggregated share statistics for each video</p>
+        </div>
+        
+        <div class="stats-summary">
+            <div class="stat-card">
+                <div class="stat-value" th:text="${#lists.size(shareSummaryList)}">0</div>
+                <div class="stat-label">Total Videos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" th:text="${#aggregates.sum(shareSummaryList.![shareCount])}">0</div>
+                <div class="stat-label">Total Shares</div>
+            </div>
+        </div>
+        
+        <div class="table-wrapper">
+            <table th:if="${!#lists.isEmpty(shareSummaryList)}">
+                <thead>
+                    <tr>
+                        <th>Video Title</th>
+                        <th>Share Count</th>
+                        <th>First Share Date</th>
+                        <th>Last Share Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="summary : ${shareSummaryList}">
+                        <td class="title-column" th:text="${summary.title}">Video Title</td>
+                        <td class="count-column" th:text="${summary.shareCount}">0</td>
+                        <td class="date-column" th:text="${#dates.format(summary.firstShareDate, 'dd/MM/yyyy')}">-</td>
+                        <td class="date-column" th:text="${#dates.format(summary.lastShareDate, 'dd/MM/yyyy')}">-</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${#lists.isEmpty(shareSummaryList)}" class="no-data">
+                No share data available
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -14,13 +14,11 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     
     /**
      * Tìm tất cả Favorite của một User
-     * Spring Data JPA tự động generate JPQL: SELECT f FROM Favorite f WHERE f.user.id = :id
      */
     List<Favorite> findByUserId(Long userId);
     
     /**
      * Tìm tất cả Favorite của một Video
-     * Spring Data JPA tự động generate JPQL: SELECT f FROM Favorite f WHERE f.video.id = :id
      */
     List<Favorite> findByVideoId(Long videoId);
     
