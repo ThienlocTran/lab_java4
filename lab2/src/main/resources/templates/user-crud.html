@@ -340,11 +340,11 @@
                         <div class="radio-group">
                             <label>
                                 <input type="radio" name="admin" value="false" th:checked="${user.admin == false or user.admin == null}">
-                                Male (User)
+                                User
                             </label>
                             <label>
                                 <input type="radio" name="admin" value="true" th:checked="${user.admin == true}">
-                                Female (Admin)
+                                Admin
                             </label>
                         </div>
                     </div>
@@ -384,8 +384,8 @@
                             <td th:text="${u.fullname}"></td>
                             <td th:text="${u.email}"></td>
                             <td>
-                                <span th:if="${u.admin == true}">👩 Admin</span>
-                                <span th:if="${u.admin == false}">👨 User</span>
+                                <span th:if="${u.admin == true}"> Admin</span>
+                                <span th:if="${u.admin == false}"> User</span>
                             </td>
                             <td>
                                 <div class="action-buttons">

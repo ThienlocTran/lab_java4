@@ -1,9 +1,0 @@
-package com.thienloc.springboot.lab4.repository;
-
-import com.thienloc.springboot.lab4.entity.Share;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface ShareRepository extends JpaRepository<Share, Long> {
-}

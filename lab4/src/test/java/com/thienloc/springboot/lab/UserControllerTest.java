@@ -1,7 +1,7 @@
 package com.thienloc.springboot.lab;
 
-import com.thienloc.springboot.lab4.entity.User;
-import com.thienloc.springboot.lab4.service.UserService;
+import com.thienloc.springboot.lab.entity.User;
+import com.thienloc.springboot.lab.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

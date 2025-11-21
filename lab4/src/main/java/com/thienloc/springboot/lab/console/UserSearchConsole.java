@@ -24,7 +24,7 @@ public class UserSearchConsole implements CommandLineRunner {
         
         List<User> users = userService.findFptEmailNonAdminUsers();
         
-          if (users.isEmpty()) {
+        if (users.isEmpty()) {
             System.out.println("Không tìm thấy user nào phù hợp!");
         } else {
             System.out.println("Kết quả tìm kiếm: " + users.size() + " user(s) tìm thấy\n");

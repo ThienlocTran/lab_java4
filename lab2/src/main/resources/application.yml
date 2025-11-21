@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Lab1
+    name: Lab2
   datasource:
     url: jdbc:sqlserver://localhost:1433;databaseName=PolyOE;encrypt=false;trustServerCertificate=true
     username: sa
