@@ -12,7 +12,10 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     
     List<Video> findByTitleContainingIgnoreCase(String keyword);
     
-    @Query("SELECT v FROM Video v WHERE SIZE(v.favorites) = 0 ORDER BY v.id")
+    @Query(value = "SELECT v.id, v.title, v.poster, v.views, v.description, v.active " +
+                   "FROM Videos v " +
+                   "WHERE v.id NOT IN (SELECT DISTINCT Videold FROM Favorite) " +
+                   "ORDER BY v.id", nativeQuery = true)
     List<Video> findVideosWithoutFavorites();
     
     @Query(value = "SELECT TOP 10 v.id, v.title, v.poster, v.views, v.description, v.active " +

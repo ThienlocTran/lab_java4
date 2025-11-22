@@ -25,11 +25,11 @@ public class FavoriteService {
         return favoriteRepository.save(favorite);
     }
     
-    public Favorite update(Favorite favorite) {
-        return favoriteRepository.save(favorite);
-    }
-    
     public void deleteById(Long id) {
         favoriteRepository.deleteById(id);
+    }
+    
+    public List<Favorite> findByUserId(Long userId) {
+        return favoriteRepository.findByUserIdOrderByLikeDateDesc(userId);
     }
 }

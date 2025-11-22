@@ -2,18 +2,16 @@ package com.thienloc.springboot.lab.repository;
 
 import com.thienloc.springboot.lab.entity.Share;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface ShareRepository extends JpaRepository<Share, Long> {
+public interface ShareRepository extends JpaRepository<Share, Long>, ShareRepositoryCustom {
     
-    @Query("SELECT s FROM Share s WHERE YEAR(s.shareDate) = 2024 ORDER BY s.shareDate DESC")
-    List<Share> findSharedVideosIn2024();
+    List<Share> findByVideoIdOrderByShareDateDesc(Long videoId);
     
-    @Query("SELECT s FROM Share s WHERE s.video.id = :videoId ORDER BY s.shareDate DESC")
-    List<Share> findSharesByVideoId(Long videoId);
+    default List<Share> findAll() {
+        return findAllShares();
+    }
 }

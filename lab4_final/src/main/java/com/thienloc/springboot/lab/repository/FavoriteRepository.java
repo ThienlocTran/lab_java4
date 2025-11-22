@@ -12,4 +12,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     
     @Query("SELECT COUNT(f) FROM Favorite f WHERE f.video.id = :videoId")
     Long countByVideoId(Long videoId);
+    
+    List<Favorite> findByUserIdOrderByLikeDateDesc(Long userId);
 }

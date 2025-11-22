@@ -112,7 +112,12 @@ INSERT INTO Videos (title, poster, views, description, active) VALUES
 (N'AI & Deep Learning', N'poster22.jpg', 290, N'Deep Learning với Neural Networks', 1),
 (N'Blockchain Technology', N'poster23.jpg', 105, N'Công nghệ Blockchain', 1),
 (N'Cybersecurity Fundamentals', N'poster24.jpg', 115, N'Nền tảng an ninh mạng', 1),
-(N'Advanced JavaScript', N'poster25.jpg', 225, N'JavaScript nâng cao - async, promises, etc', 1);
+(N'Advanced JavaScript', N'poster25.jpg', 225, N'JavaScript nâng cao - async, promises, etc', 1),
+(N'Rust Programming Language', N'poster26.jpg', 50, N'Lập trình Rust - Hệ thống an toàn', 1),
+(N'GraphQL API Development', N'poster27.jpg', 60, N'Phát triển API với GraphQL', 1),
+(N'Kubernetes Orchestration', N'poster28.jpg', 75, N'Quản lý container với Kubernetes', 1),
+(N'Web Performance Optimization', N'poster29.jpg', 45, N'Tối ưu hóa hiệu năng web', 1),
+(N'TypeScript Advanced', N'poster30.jpg', 80, N'TypeScript nâng cao - types, generics', 1);
 GO
 
 -- ============================================
@@ -178,6 +183,18 @@ INSERT INTO Share (Userld, Videold, emails, shareDate) VALUES
 (10, 18, N'user20@gmail.com;user21@gmail.com;user22@gmail.com', '2024-10-25'),
 (1, 22, N'user23@gmail.com', '2024-11-08'),
 (2, 25, N'user24@gmail.com;user25@gmail.com', '2024-12-03'),
+(3, 26, N'user39@gmail.com;user40@gmail.com;user41@gmail.com', '2024-01-20'),
+(4, 27, N'user42@gmail.com', '2024-02-28'),
+(5, 28, N'user43@gmail.com;user44@gmail.com', '2024-03-15'),
+(6, 29, N'user45@gmail.com;user46@gmail.com;user47@gmail.com', '2024-04-18'),
+(7, 30, N'user48@gmail.com', '2024-05-22'),
+(1, 4, N'user49@gmail.com;user50@gmail.com', '2024-06-10'),
+(2, 8, N'user51@gmail.com', '2024-07-05'),
+(3, 14, N'user52@gmail.com;user53@gmail.com;user54@gmail.com', '2024-08-12'),
+(4, 16, N'user55@gmail.com', '2024-09-20'),
+(5, 19, N'user56@gmail.com;user57@gmail.com', '2024-10-11'),
+(6, 21, N'user58@gmail.com', '2024-11-25'),
+(7, 24, N'user59@gmail.com;user60@gmail.com', '2024-12-15'),
 
 -- Chia sẻ trong 2023
 (3, 4, N'user26@gmail.com;user27@gmail.com', '2023-06-15'),

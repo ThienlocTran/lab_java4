@@ -26,5 +26,6 @@ public class Share {
     private String emails;
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "shareDate")
     private Date shareDate;
 }

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Test - PolyOE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; }
+        .card { margin-bottom: 20px; border: none; }
+        .card-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        table { font-size: 14px; }
+        .btn-link { color: #667eea; text-decoration: none; }
+        .btn-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="mb-4">
+        <h1 style="color: white; text-align: center; font-weight: bold;">Query Test</h1>
+        <a href="/" style="color: white; text-decoration: none;">← Back to Home</a>
+    </div>
+
+    <!-- 1. Search Video by Keyword -->
+    <div class="card">
+        <div class="card-header">
+            <h5>1. Tìm Video theo Keyword</h5>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/query-test/search-video}" method="get" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="keyword" class="form-control" placeholder="Nhập keyword (vd: java, python)..." required>
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
+            <div th:if="${videos != null}">
+                <p><strong>Kết quả cho: "<span th:text="${keyword}"></span>"</strong> - <span th:text="${videos.size()}"></span> video</p>
+                <div th:if="${!videos.isEmpty()}">
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">STT</th>
+                                <th style="width: 30%">Title</th>
+                                <th style="width: 10%">Views</th>
+                                <th style="width: 50%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="video, index : ${videos}">
+                                <td th:text="${index.count}"></td>
+                                <td th:text="${video.title}"></td>
+                                <td th:text="${video.views}"></td>
+                                <td><small th:text="${#strings.abbreviate(video.description, 50)}"></small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:if="${videos.isEmpty()}" class="alert alert-info mb-0">
+                    Không tìm thấy video nào với từ khóa "<span th:text="${keyword}"></span>"
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Top 10 Most Favorited -->
+    <div class="card">
+        <div class="card-header">
+            <h5>2. Top 10 Video Được Yêu Thích Nhiều Nhất</h5>
+        </div>
+        <div class="card-body">
+            <a th:href="@{/query-test/top10-favorited}" class="btn btn-sm btn-outline-primary mb-3">Xem Top 10</a>
+            <table class="table table-striped" th:if="${top10Videos != null && !top10Videos.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Title</th>
+                        <th>Views</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="video, index : ${top10Videos}">
+                        <td><strong th:text="${index.count}"></strong></td>
+                        <td th:text="${video.title}"></td>
+                        <td th:text="${video.views}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${top10Videos != null && top10Videos.isEmpty()}" class="alert alert-info">
+                Không có dữ liệu
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Videos Without Favorites -->
+    <div class="card">
+        <div class="card-header">
+            <h5>3. Video Không Được Ai Thích</h5>
+        </div>
+        <div class="card-body">
+            <a th:href="@{/query-test/no-favorites}" class="btn btn-sm btn-outline-primary mb-3">Xem Danh Sách</a>
+            <table class="table table-striped" th:if="${noFavVideos != null && !noFavVideos.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Title</th>
+                        <th>Views</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="video, index : ${noFavVideos}">
+                        <td th:text="${index.count}"></td>
+                        <td th:text="${video.title}"></td>
+                        <td th:text="${video.views}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${noFavVideos != null && noFavVideos.isEmpty()}" class="alert alert-info">
+                Tất cả video đều được yêu thích
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Videos Shared in 2024 -->
+    <div class="card">
+        <div class="card-header">
+            <h5>4. Video Được Chia Sẻ trong 2024</h5>
+        </div>
+        <div class="card-body">
+            <a th:href="@{/query-test/shared-2024}" class="btn btn-sm btn-outline-primary mb-3">Xem Danh Sách</a>
+            <table class="table table-striped" th:if="${shares2024 != null && !shares2024.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Video Title</th>
+                        <th>Shared Date</th>
+                        <th>Shared To</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="share, index : ${shares2024}">
+                        <td th:text="${index.count}"></td>
+                        <td th:text="${share.video.title}"></td>
+                        <td th:text="${#dates.format(share.shareDate, 'dd/MM/yyyy')}"></td>
+                        <td><small th:text="${share.emails}"></small></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${shares2024 != null && shares2024.isEmpty()}" class="alert alert-info">
+                Không có video nào được chia sẻ trong 2024
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Share Summary -->
+    <div class="card">
+        <div class="card-header">
+            <h5>5. Tóm Tắt Thông Tin Chia Sẻ</h5>
+        </div>
+        <div class="card-body">
+            <a th:href="@{/query-test/share-summary}" class="btn btn-sm btn-outline-primary mb-3">Xem Tóm Tắt</a>
+            <table class="table table-striped" th:if="${summaries != null && !summaries.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>Video Title</th>
+                        <th style="text-align: center;">Share Count</th>
+                        <th>First Share</th>
+                        <th>Last Share</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="summary : ${summaries}">
+                        <td th:text="${summary['videoTitle']}"></td>
+                        <td style="text-align: center;"><span class="badge bg-primary" th:text="${summary['shareCount']}"></span></td>
+                        <td th:text="${summary['firstShareDate']}"></td>
+                        <td th:text="${summary['lastShareDate']}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:if="${summaries != null && summaries.isEmpty()}" class="alert alert-info">
+                Không có dữ liệu chia sẻ
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

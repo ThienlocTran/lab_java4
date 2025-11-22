@@ -12,11 +12,22 @@
         </processorPath>
         <module name="lab1 (1)" />
         <module name="lab1 (2)" />
-        <module name="lab1 (3)" />
         <module name="lab1" />
+      </profile>
+      <profile name="Annotation profile for lab1 (4)" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
         <module name="lab1 (4)" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lab1 (3)" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
