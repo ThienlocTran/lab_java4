@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +10,67 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-custom .navbar-brand {
+            color: #667eea !important;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .navbar-custom .nav-link {
+            color: #333 !important;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #667eea !important;
+        }
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .logout-btn:hover {
+            background: #c82333;
+            color: white;
+            text-decoration: none;
+        }
+        .user-info {
+            color: #667eea;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
         .container {
             background: white;
@@ -20,6 +78,7 @@
             padding: 50px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             max-width: 800px;
+            width: 100%;
         }
         .header {
             text-align: center;
@@ -74,7 +133,28 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <nav class="navbar navbar-custom navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">🎬 PolyOE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <div class="d-flex align-items-center">
+                    <th:block th:if="${isLoggedIn}">
+                        <span class="user-info">Welcome, <span th:text="${userName}"></span>!</span>
+                        <a href="/logout" class="logout-btn">Logout</a>
+                    </th:block>
+                    <th:block th:unless="${isLoggedIn}">
+                        <a href="/login" class="login-btn">Login</a>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="main-content">
+        <div class="container">
         <div class="header">
             <h1>🎬 PolyOE</h1>
             <p>Video Sharing & Management Platform</p>
@@ -117,11 +197,12 @@
                 <p>Tổng hợp thông tin chia sẻ</p>
             </a>
             
-            <a href="/query-test" class="menu-card">
+            <a href="/test-query" class="menu-card">
                 <div class="menu-icon">🔍</div>
                 <h3>Query Tests</h3>
                 <p>Test các Spring JPA queries</p>
             </a>
+        </div>
         </div>
     </div>
     

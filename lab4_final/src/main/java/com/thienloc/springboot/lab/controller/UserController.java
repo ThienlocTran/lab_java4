@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/user/crud")
-public class UserController {
+public class    UserController {
     
     @Autowired
     private UserService userService;

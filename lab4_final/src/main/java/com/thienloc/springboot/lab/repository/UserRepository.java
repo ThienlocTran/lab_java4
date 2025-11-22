@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findFptEmailNonAdminUsers();
     
     Optional<User> findByEmail(String email);
+    
+    @Query("SELECT u FROM User u WHERE CAST(u.id as string) = :idOrEmail OR u.email = :idOrEmail")
+    Optional<User> findByIdOrEmail(String idOrEmail);
 }
