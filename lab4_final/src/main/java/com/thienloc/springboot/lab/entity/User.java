@@ -1,5 +1,6 @@
 package com.thienloc.springboot.lab.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class User {
     @Column(name = "admin")
     private Boolean admin = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Favorite> favorites;
 }

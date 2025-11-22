@@ -1,10 +1,14 @@
 package com.thienloc.springboot.lab.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(
         name = "Favorite",
@@ -30,5 +34,6 @@ public class Favorite {
     private Video video; // <--- Đối tượng Video (ID Long)
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "like_date")
     private Date likeDate;
 }

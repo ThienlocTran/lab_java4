@@ -1,10 +1,14 @@
 package com.thienloc.springboot.lab.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Share")
 public class Share {
@@ -25,7 +29,6 @@ public class Share {
 
     private String emails;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "shareDate")
+    @Column(name = "shareDate", columnDefinition = "DATETIME DEFAULT GETDATE()")
     private Date shareDate;
 }

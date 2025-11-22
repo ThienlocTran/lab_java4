@@ -12,7 +12,7 @@ public class ShareRepositoryImpl implements ShareRepositoryCustom {
     
     @Override
     public List<Share> findAllShares() {
-        String sql = "SELECT * FROM Share ORDER BY shareDate DESC";
-        return entityManager.createNativeQuery(sql, Share.class).getResultList();
+        String jpql = "SELECT s FROM Share s ORDER BY s.shareDate DESC";
+        return entityManager.createQuery(jpql, Share.class).getResultList();
     }
 }
