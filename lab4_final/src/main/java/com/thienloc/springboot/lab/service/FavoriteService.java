@@ -16,7 +16,7 @@ public class FavoriteService {
 
     @Autowired
     private VideoService videoService;
-    public Optional<Video> findByVideoId(Long videoId) {return videoService.findById(videoId);}
+    
     public List<Favorite> findAll() {
         return favoriteRepository.findAll();
     }
@@ -35,5 +35,9 @@ public class FavoriteService {
     
     public List<Favorite> findByUserId(Long userId) {
         return favoriteRepository.findByUserIdOrderByLikeDateDesc(userId);
+    }
+    
+    public Long countFavoritesByVideoId(Long videoId) {
+        return favoriteRepository.countByVideoId(videoId);
     }
 }
