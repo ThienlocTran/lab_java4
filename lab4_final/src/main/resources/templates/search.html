@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Kiếm Video</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+        
+        .navbar-custom .navbar-brand {
+            color: #667eea !important;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .navbar-custom .nav-link {
+            color: #333 !important;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        
+        .navbar-custom .nav-link:hover {
+            color: #667eea !important;
+        }
+        
+        .back-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            background: #764ba2;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 1000px;
+            margin: 20px auto;
+        }
+        
+        .search-header {
+            margin-bottom: 40px;
+        }
+        
+        .search-header h1 {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .search-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .search-form input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-form input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.2);
+        }
+        
+        .search-form button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .results-info {
+            background: #e7f3ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .results-info strong {
+            color: #667eea;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .no-results-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .no-results-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .results-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .results-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .results-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .results-table tbody tr:hover {
+            background-color: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+        
+        .video-title {
+            color: #667eea;
+            font-weight: 600;
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+        
+        .favorite-count {
+            background: #ffe6e6;
+            color: #cc0000;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-custom navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">🎬 PolyOE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <a href="/" class="back-btn">← Quay lại trang chủ</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="search-header">
+            <h1>🔍 Tìm Kiếm Video</h1>
+            <p>Nhập từ khóa để tìm kiếm video theo tiêu đề</p>
+        </div>
+        
+        <form method="GET" action="/search" class="search-form">
+            <input type="text" name="keyword" placeholder="Nhập từ khóa tìm kiếm..." 
+                   th:value="${keyword}">
+            <button type="submit">Tìm Kiếm</button>
+        </form>
+        
+        <div th:if="${keyword != null && keyword != ''}">
+            <div class="results-info">
+                Kết quả tìm kiếm cho: <strong th:text="'\"' + ${keyword} + '\"'"></strong>
+                <span th:if="${resultCount > 0}">
+                    - Tìm thấy <strong th:text="${resultCount}"></strong> video
+                </span>
+                <span th:if="${resultCount == 0}">
+                    - Không tìm thấy video nào
+                </span>
+            </div>
+            
+            <div th:if="${resultCount > 0}">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Tiêu Đề Video</th>
+                            <th style="text-align: center;">Số Lượt Thích</th>
+                            <th style="text-align: center;">Còn Hiệu Lực</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="result : ${searchResults}">
+                            <td class="video-title" th:text="${result.title}"></td>
+                            <td style="text-align: center;">
+                                <span class="favorite-count" th:text="${result.favoriteCount}"></span>
+                            </td>
+                            <td style="text-align: center;">
+                                <span th:if="${result.active}" class="status-active">✓ Có</span>
+                                <span th:unless="${result.active}" class="status-inactive">✗ Không</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div th:if="${resultCount == 0}" class="no-results">
+                <div class="no-results-icon">🎥</div>
+                <div class="no-results-text">Không tìm thấy video nào với từ khóa: <strong th:text="${keyword}"></strong></div>
+                <p style="color: #aaa; font-size: 14px;">Vui lòng thử từ khóa khác</p>
+            </div>
+        </div>
+        
+        <div th:if="${keyword == null || keyword == ''}" style="text-align: center; padding: 60px 20px; color: #999;">
+            <div style="font-size: 60px; margin-bottom: 20px; opacity: 0.5;">🔎</div>
+            <p style="font-size: 18px; margin-bottom: 10px;">Hãy nhập từ khóa để bắt đầu tìm kiếm</p>
+            <p style="font-size: 14px; color: #aaa;">Ví dụ: Java, Python, Spring Boot...</p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

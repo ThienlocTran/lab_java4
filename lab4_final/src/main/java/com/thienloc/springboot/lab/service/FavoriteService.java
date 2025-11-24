@@ -1,6 +1,7 @@
 package com.thienloc.springboot.lab.service;
 
 import com.thienloc.springboot.lab.entity.Favorite;
+import com.thienloc.springboot.lab.entity.Video;
 import com.thienloc.springboot.lab.repository.FavoriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,10 @@ public class FavoriteService {
     
     @Autowired
     private FavoriteRepository favoriteRepository;
-    
+
+    @Autowired
+    private VideoService videoService;
+    public Optional<Video> findByVideoId(Long videoId) {return videoService.findById(videoId);}
     public List<Favorite> findAll() {
         return favoriteRepository.findAll();
     }
