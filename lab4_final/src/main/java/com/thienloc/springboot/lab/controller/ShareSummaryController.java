@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/share-summary")
@@ -31,25 +29,23 @@ public class ShareSummaryController {
     public String showShareSummary(Model model) {
         List<Video> videos = videoService.findAll();
         List<ShareSummaryDto> summaries = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         
         for (Video video : videos) {
             List<Share> shares = shareService.findSharesByVideoId(video.getId());
             
             if (!shares.isEmpty()) {
-                String emails = shares.stream()
-                    .map(Share::getEmails)
-                    .distinct()
-                    .collect(Collectors.joining(", "));
-                
-                String lastShareDate = shares.isEmpty() ? "N/A" : 
-                    new SimpleDateFormat("dd/MM/yyyy").format(shares.get(0).getShareDate());
+                // shares đã được sort descending by shareDate (từ repository)
+                // Vậy shares.get(0) = ngày mới nhất, shares.get(last) = ngày cũ nhất
+                String lastShareDate = dateFormat.format(shares.get(0).getShareDate());
+                String firstShareDate = dateFormat.format(shares.get(shares.size() - 1).getShareDate());
                 
                 ShareSummaryDto summary = new ShareSummaryDto(
                     video.getId(),
                     video.getTitle(),
                     video.getPoster(),
                     shares.size(),
-                    emails,
+                    firstShareDate,
                     lastShareDate
                 );
                 summaries.add(summary);

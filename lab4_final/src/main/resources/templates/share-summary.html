@@ -91,14 +91,14 @@
         <a href="/" class="back-btn">← Back to Home</a>
         
         <div class="header">
-            <h1>📊 Share Summary</h1>
-            <p>Tổng hợp thông tin chia sẻ của các video</p>
+            <h1>📊 Tổng Hợp Chia Sẻ Video</h1>
+            <p>Thống kê thông tin chia sẻ của từng video</p>
         </div>
         
         <div th:if="${summaries.isEmpty()}" class="table-container">
             <div class="empty-state">
-                <h3>No shared videos found</h3>
-                <p>No videos have been shared yet.</p>
+                <h3>Không tìm thấy video được chia sẻ</h3>
+                <p>Chưa có video nào được chia sẻ.</p>
             </div>
         </div>
         
@@ -106,28 +106,22 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Video</th>
-                        <th>Title</th>
-                        <th style="text-align: center;">Share Count</th>
-                        <th>Shared with Emails</th>
-                        <th>Last Share Date</th>
+                        <th>Tiêu Đề Video</th>
+                        <th style="text-align: center;">Số Lượt Chia Sẻ</th>
+                        <th style="text-align: center;">Ngày Chia Sẻ Đầu Tiên</th>
+                        <th style="text-align: center;">Ngày Chia Sẻ Cuối Cùng</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="summary : ${summaries}">
-                        <td>
-                            <img th:src="${summary.videoPoster}" 
-                                 alt="${summary.videoTitle}" 
-                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
-                        </td>
                         <td class="video-title" th:text="${summary.videoTitle}">Video Title</td>
                         <td style="text-align: center;">
                             <span class="badge-share" th:text="${summary.shareCount}">0</span>
                         </td>
-                        <td>
-                            <small th:text="${summary.sharedUserEmails}">No emails</small>
+                        <td style="text-align: center;">
+                            <small th:text="${summary.firstShareDate}">N/A</small>
                         </td>
-                        <td>
+                        <td style="text-align: center;">
                             <small th:text="${summary.lastShareDate}">N/A</small>
                         </td>
                     </tr>

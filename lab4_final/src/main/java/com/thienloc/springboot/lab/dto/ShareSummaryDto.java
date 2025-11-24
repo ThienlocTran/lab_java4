@@ -12,6 +12,6 @@ public class ShareSummaryDto {
     private String videoTitle;
     private String videoPoster;
     private Integer shareCount;
-    private String sharedUserEmails;
+    private String firstShareDate;
     private String lastShareDate;
 }
